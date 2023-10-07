@@ -18,6 +18,7 @@ HonorSpy:SetCommPrefix(commPrefix)
 local VERSION = 3;
 local paused = false; -- pause all inspections when user opens inspect frame
 local playerName = UnitName("player");
+local horde = { Orc=true, Tauren=true, Troll=true, Undead=true, Goblin=true } --horde
 
 local RealmPlayersAddon = false;
 if (type(VF_InspectDone) ~= "nil" and type(VF_StartInspectingTarget) ~= "nil") then
@@ -50,13 +51,15 @@ local function StartInspecting(unitID)
 	if (name == nil
 		or name == inspectedPlayerName
 		or not UnitIsPlayer(unitID)
-		or not UnitIsFriend("player", unitID)
+		or  UnitRace(unitID)
+		--or not UnitIsFriend("player", unitID)  --fix this to check for faction (by race) rather than friendly 
+		or horde[UnitRace(unitID)]
 		or not CheckInteractDistance(unitID, 1)
 		or not CanInspect(unitID)) then
 		return
 	end
 	
-	local player = HonorSpy.db.realm.hs.currentStandings[name] or inspectedPlayers[name];
+	local player = HonorSpy.db.realm.hs.currentStandings[name] or inspectedPlayers[name]; --need to check for faction
 	if (player == nil) then
 		inspectedPlayers[name] = {last_checked = 0};
 		player = inspectedPlayers[name];
@@ -72,7 +75,7 @@ local function StartInspecting(unitID)
 	RequestInspectHonorData();
 	_, player.rank = GetPVPRankInfo(UnitPVPRank(player.unitID)); -- rank must be get asap while mouse is still over a unit
 	_, player.class = UnitClass(player.unitID); -- same
-	_, player.faction =  UnitFactionGroup(player.unitID);
+	_, player.race = UnitRace(player.unitID); --get race instead (everyone's faction is alliance in groups on turtle)
 end
 
 function HonorSpy:INSPECT_HONOR_UPDATE()
@@ -361,11 +364,12 @@ end
 
 function store_player(playerName, player)
 	if (player == nil) then return end
-	
+
 	if (player.last_checked < HonorSpy.db.realm.hs.last_reset
 		or player.last_checked > time()
 		or player.thisWeekHonor == 0)
-		or player.faction == "Horde"  then
+		or horde[player.race]  --check for horde
+		or player.race == nil then --check if a race is send
 		return
 	end
 	
