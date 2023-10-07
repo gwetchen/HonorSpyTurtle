@@ -72,6 +72,7 @@ local function StartInspecting(unitID)
 	RequestInspectHonorData();
 	_, player.rank = GetPVPRankInfo(UnitPVPRank(player.unitID)); -- rank must be get asap while mouse is still over a unit
 	_, player.class = UnitClass(player.unitID); -- same
+	_, player.faction =  UnitFactionGroup(player.unitID);
 end
 
 function HonorSpy:INSPECT_HONOR_UPDATE()
@@ -363,7 +364,8 @@ function store_player(playerName, player)
 	
 	if (player.last_checked < HonorSpy.db.realm.hs.last_reset
 		or player.last_checked > time()
-		or player.thisWeekHonor == 0) then
+		or player.thisWeekHonor == 0)
+		or player.faction == "Horde"  then
 		return
 	end
 	
