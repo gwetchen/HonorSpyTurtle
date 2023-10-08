@@ -1,5 +1,6 @@
 Edit to work for turtle's crossfaction feature.
 Members of the enemy faction should not be saved to the DB. Might break once race changes/faction xfers return. If new races are introduced it will require a fix.
+It will not sync with users of other honorspy versions.
 
 ### DISCLAIMER ###
 I did not create this addon, nor adjusted the version for HonorSpy. The Turtle version was made by someone who didn't have a GitHub account and just distributed the addon through Discord. To prevent it getting lost, I'm hosting it on my GitHub.
