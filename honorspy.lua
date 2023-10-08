@@ -18,6 +18,10 @@ HonorSpy:SetCommPrefix(commPrefix)
 local VERSION = 3;
 local paused = false; -- pause all inspections when user opens inspect frame
 local playerName = UnitName("player");
+local horde = { Orc=true, Tauren=true, Troll=true, Undead=true, Goblin=true } --horde if more races are added in the future, just add them here
+local alliance = { Dwarf=true, Gnome=true, Human=true, ["Night Elf"]=true, ["High Elf"]=true } --aliance if more races are added in the future, just add them here
+local eFaction = {}
+local myFaction = nil
 
 local RealmPlayersAddon = false;
 if (type(VF_InspectDone) ~= "nil" and type(VF_StartInspectingTarget) ~= "nil") then
@@ -35,6 +39,15 @@ function HonorSpy:OnEnable()
 	self:RegisterEvent("INSPECT_HONOR_UPDATE");
 	self.OnMenuRequest = BuildMenu();
 	checkNeedReset();
+	if alliance[UnitRace("player")] == true
+	then
+		eFaction = horde;
+		myFaction = "Alliance";
+	else
+		eFaction = alliance;
+		myFaction = "Horde";
+	end
+
 end
 
 local inspectedPlayers = {}; -- stores last_checked time of all players met
@@ -50,13 +63,14 @@ local function StartInspecting(unitID)
 	if (name == nil
 		or name == inspectedPlayerName
 		or not UnitIsPlayer(unitID)
-		or not UnitIsFriend("player", unitID)
+		--or not UnitIsFriend("player", unitID)  -- all grouped players are Alliance on turtle so this will record enemy players data
+		or eFaction[UnitRace(unitID)] -- check if players race is of other faciton
 		or not CheckInteractDistance(unitID, 1)
 		or not CanInspect(unitID)) then
 		return
 	end
 	
-	local player = HonorSpy.db.realm.hs.currentStandings[name] or inspectedPlayers[name];
+	local player = HonorSpy.db.realm.hs.currentStandings[name] or inspectedPlayers[name]; --need to check for faction
 	if (player == nil) then
 		inspectedPlayers[name] = {last_checked = 0};
 		player = inspectedPlayers[name];
@@ -72,6 +86,7 @@ local function StartInspecting(unitID)
 	RequestInspectHonorData();
 	_, player.rank = GetPVPRankInfo(UnitPVPRank(player.unitID)); -- rank must be get asap while mouse is still over a unit
 	_, player.class = UnitClass(player.unitID); -- same
+	_, player.race = UnitRace(player.unitID); -- same
 end
 
 function HonorSpy:INSPECT_HONOR_UPDATE()
@@ -176,7 +191,7 @@ function HonorSpy:OnClick()
 	HonorSpyStandings:Toggle()
 end
 function HonorSpy:OnTooltipUpdate()
-  T:SetHint("by Kakysha, v"..tostring(VERSION))
+  T:SetHint("by Kakysha, v"..tostring(VERSION)..", Faction:"..tostring(myFaction))
 end
 
 -- PAUSING to not mess with native inspect calls
@@ -360,10 +375,12 @@ end
 
 function store_player(playerName, player)
 	if (player == nil) then return end
-	
+
 	if (player.last_checked < HonorSpy.db.realm.hs.last_reset
 		or player.last_checked > time()
-		or player.thisWeekHonor == 0) then
+		or player.thisWeekHonor == 0)
+		or eFaction[player.race]  --check for enemy faction
+		or player.race == nil then --check if a race is send
 		return
 	end
 	
