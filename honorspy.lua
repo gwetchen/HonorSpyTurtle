@@ -20,8 +20,8 @@ local paused = false; -- pause all inspections when user opens inspect frame
 local playerName = UnitName("player");
 local horde = { Orc=true, Tauren=true, Troll=true, Undead=true, Goblin=true } --horde
 local alliance = { Dwarf=true, Gnome=true, Human=true, ["Night Elf"]=true, ["High Elf"]=true } --aliance
-local efaction = {}
-local myfaction = nil
+local eFaction = {}
+local myFaction = nil
 
 local RealmPlayersAddon = false;
 if (type(VF_InspectDone) ~= "nil" and type(VF_StartInspectingTarget) ~= "nil") then
@@ -41,11 +41,11 @@ function HonorSpy:OnEnable()
 	checkNeedReset();
 	if alliance[UnitRace("player")] == true
 	then
-		efaction = horde;
-		myfaction = "Alliance";
+		eFaction = horde;
+		myFaction = "Alliance";
 	else
-		efaction = alliance;
-		myfaction = "Horde";
+		eFaction = alliance;
+		myFaction = "Horde";
 	end
 
 end
@@ -64,7 +64,7 @@ local function StartInspecting(unitID)
 		or name == inspectedPlayerName
 		or not UnitIsPlayer(unitID)
 		--or not UnitIsFriend("player", unitID)  -- all grouped players are Alliance on turtle so this will record enemy players data
-		or efaction[UnitRace(unitID)] -- check if players race is of other faciton
+		or eFaction[UnitRace(unitID)] -- check if players race is of other faciton
 		or not CheckInteractDistance(unitID, 1)
 		or not CanInspect(unitID)) then
 		return
@@ -191,7 +191,7 @@ function HonorSpy:OnClick()
 	HonorSpyStandings:Toggle()
 end
 function HonorSpy:OnTooltipUpdate()
-  T:SetHint("by Kakysha, v"..tostring(VERSION)..", Faction:"..tostring(myfaction))
+  T:SetHint("by Kakysha, v"..tostring(VERSION)..", Faction:"..tostring(myFaction))
 end
 
 -- PAUSING to not mess with native inspect calls
@@ -379,7 +379,7 @@ function store_player(playerName, player)
 	if (player.last_checked < HonorSpy.db.realm.hs.last_reset
 		or player.last_checked > time()
 		or player.thisWeekHonor == 0)
-		or efaction[player.race]  --check for enemy faction
+		or eFaction[player.race]  --check for enemy faction
 		or player.race == nil then --check if a race is send
 		return
 	end
