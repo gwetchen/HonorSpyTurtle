@@ -63,8 +63,8 @@ local function StartInspecting(unitID)
 	if (name == nil
 		or name == inspectedPlayerName
 		or not UnitIsPlayer(unitID)
-		--or not UnitIsFriend("player", unitID)  --all grouped players are Alliance on turtle so this will record enemy players data
-		or efection[UnitRace(unitID)]
+		--or not UnitIsFriend("player", unitID)  -- all grouped players are Alliance on turtle so this will record enemy players data
+		or efaction[UnitRace(unitID)] -- check if players race is of other faciton
 		or not CheckInteractDistance(unitID, 1)
 		or not CanInspect(unitID)) then
 		return
@@ -379,7 +379,7 @@ function store_player(playerName, player)
 	if (player.last_checked < HonorSpy.db.realm.hs.last_reset
 		or player.last_checked > time()
 		or player.thisWeekHonor == 0)
-		or efaction[player.race]  --check for horde
+		or efaction[player.race]  --check for enemy faction
 		or player.race == nil then --check if a race is send
 		return
 	end
