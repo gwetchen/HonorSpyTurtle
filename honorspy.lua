@@ -18,8 +18,8 @@ HonorSpy:SetCommPrefix(commPrefix)
 local VERSION = 3;
 local paused = false; -- pause all inspections when user opens inspect frame
 local playerName = UnitName("player");
-local horde = { Orc=true, Tauren=true, Troll=true, Undead=true, Goblin=true } --horde
-local alliance = { Dwarf=true, Gnome=true, Human=true, ["Night Elf"]=true, ["High Elf"]=true } --aliance
+local horde = { Orc=true, Tauren=true, Troll=true, Undead=true, Goblin=true } --horde if more races are added in the future, just add them here
+local alliance = { Dwarf=true, Gnome=true, Human=true, ["Night Elf"]=true, ["High Elf"]=true } --aliance if more races are added in the future, just add them here
 local eFaction = {}
 local myFaction = nil
 
