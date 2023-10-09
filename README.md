@@ -1,3 +1,4 @@
+### purge your data from the minimap button if you used a different version before ###
 Edit to work for twow's crossfaction feature.  
 Members of the enemy faction should not be saved to the DB. Might break once race changes/faction xfers return. If new races are introduced it will require a fix.  
 It will not sync with users of other honorspy versions.  
