@@ -26,8 +26,8 @@ Addon does all the magic in background.
 
 Options can be invoked by right clicking on the minimap icon.
 
-It only stores players with >15HKs.
-Reset day can be configured, default is Wednesday. Reset time is fixed at 10AM UTC.
+It only stores players with at leats 1 HK.
+Reset day can be configured, default is Wednesday. Reset time is fixed at Midnight UTC.
 
 P.S. Do not be afraid of losing all your data, very likely that another players with HonorSpy will push you their database very soon. The more players use and collects data -> the more up-to-date data you will have. Magic of sync.
 
