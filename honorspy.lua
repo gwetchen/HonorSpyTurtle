@@ -242,7 +242,10 @@ function HonorSpy:Report(playerOfInterest)
 	local t = HonorSpyStandings:BuildStandingsTable()
 	local avg_lastchecked = 0;
 	pool_size = table.getn(t);
-	pool_size = 1200; --turtle put poolsize to 1200 to boost the pool
+	if pool_size < 800 then
+		pool_size = 800
+	end
+	--pool_size = 1200; --turtle put poolsize to 1200 to boost the pool <- THIS WAS ALWAYS WRONG
 	for i = 1, table.getn(t) do
 		if (playerOfInterest == t[i][1]) then
 			standing = i
