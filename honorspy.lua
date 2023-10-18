@@ -114,7 +114,7 @@ function HonorSpy:INSPECT_HONOR_UPDATE()
 	player.last_checked = time();
 	player.RP = 0;
 
-	if (thisweekHK >= 15) then
+	if (thisweekHK >= 1) then -- turtle only requried one HK compared to 15 on blizzlike
 		if (player.rank >= 3) then
 			player.RP = math.ceil((player.rank-2) * 5000 + player.rankProgress * 5000)
 		elseif (player.rank == 2) then
