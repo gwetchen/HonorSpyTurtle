@@ -144,7 +144,7 @@ function checkNeedReset()
 	local m = date("!%M");
 	local s = date("!%S");
 	local days_diff = (7 + (day - HonorSpy.db.realm.hs.reset_day)) - math.floor((7 + (day - HonorSpy.db.realm.hs.reset_day))/7) * 7;
-	local diff_in_seconds = s + m*60 + h*60*60 + days_diff*24*60*60 - 1; -- resets at midnight on turtle. 10 AM UTC - fixed hour of PvP maintenance 
+	local diff_in_seconds = s + m*60 + h*60*60 + days_diff*24*60*60 - 1; -- resets at midnight on turtle
 	if (diff_in_seconds > 0) then -- it is negative on reset_day untill midnight
 		local must_reset_on = time()-diff_in_seconds;
 		if (must_reset_on > HonorSpy.db.realm.hs.last_reset) then resetWeek(must_reset_on) end
