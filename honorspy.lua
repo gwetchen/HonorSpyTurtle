@@ -291,10 +291,10 @@ function HonorSpy:Report(playerOfInterest)
 	end
 
 	if (playerOfInterest ~= playerName) then
-		SendChatMessage("- HonorSpy v"..tostring(VERSION)..": "..L["Report for player"].." "..playerOfInterest,"emote")
+		DEFAULT_CHAT_FRAME:AddMessage(L["Report for player"].." "..playerOfInterest, 0.92, 0.85, 0,09)
 	end
-	SendChatMessage("- HonorSpy v"..tostring(VERSION)..": "..L["Pool Size"].." = "..pool_size..", "..L["Standing"].." = "..standing..",  "..L["Bracket"].." = "..my_bracket..",  "..L["current RP"].." = "..RP..",  "..L["Next Week RP"].." = "..EstRP,"emote")
-	SendChatMessage("- HonorSpy v"..tostring(VERSION)..": "..L["Current Rank"].." = "..Rank.." ("..Progress.."%), "..L["Next Week Rank"].." = "..EstRank.." ("..EstProgress.."%)", "emote")
+	DEFAULT_CHAT_FRAME:AddMessage("HonorSpy v"..tostring(VERSION)..": "..L["Pool Size"].." = "..pool_size..", "..L["Standing"].." = "..standing..",  "..L["Bracket"].." = "..my_bracket..",  "..L["current RP"].." = "..RP..",  "..L["Next Week RP"].." = "..EstRP, 0.92, 0.85, 0,09)
+	DEFAULT_CHAT_FRAME:AddMessage(L["Current Rank"].." = "..Rank.." ("..Progress.."%), "..L["Next Week Rank"].." = "..EstRank.." ("..EstProgress.."%)", 0.92, 0.85, 0,09)
 end
 
 -- MINIMAP
