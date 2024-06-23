@@ -19,7 +19,7 @@ local VERSION = 3;
 local paused = false; -- pause all inspections when user opens inspect frame
 local playerName = UnitName("player");
 local horde = { Orc=true, Tauren=true, Troll=true, Undead=true, Scourge=true, Goblin=true } --horde if more races are added in the future, just add them here (sometimes I get undead, sometimes scourge can't figure out why so both are here)
-local alliance = { Dwarf=true, Gnome=true, Human=true, ["Night Elf"]=true, ["High Elf"]=true } --aliance if more races are added in the future, just add them here
+local alliance = { Dwarf=true, Gnome=true, Human=true, ["Night Elf"]=true, ["High Elf"]=true, NightElf=true, HighElf=true } --aliance if more races are added in the future, just add them here
 local eFaction = {}
 local myFaction = nil
 
